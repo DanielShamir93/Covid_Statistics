@@ -4,8 +4,9 @@ import { chart } from './chart.js';
 const fetchCountriesNames = async (myRequest) => {
     try {
         const response = await axios.get(myRequest.url);
-        // {continent: [...countries]}
-        const resultObject = {};
+        const resultObject = {
+            // { continent: [...countries] }
+        };
 
         if (myRequest.name === 'All') {
             response.data.forEach((country) => {
@@ -18,27 +19,112 @@ const fetchCountriesNames = async (myRequest) => {
                     }
                 }
             });
-            console.log(resultObject)
         } else if (['Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Oceania'].includes(myRequest.name)) {
             // requested all countries of specific continent
             resultObject[myRequest.name] = [];
-            resultObject['shortname-format']
             response.data.forEach((country) => {
                 resultObject[myRequest.name].push(country.name.common);
             });
-            console.log(resultObject);
         } else {
             // requested specific country
 
         }
 
         setDropDowns(resultObject);
-        // myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
+        myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
         
 
       } catch (error) {
         console.error(error);
     }
+}
+
+const fetchContinentCountriesCovidStats = async (url, continentCountriesObject) => {
+    try {
+        const response = await axios.get(url);
+        const resultObject = {
+            // { countryName : { confirmed: _, deaths: _, recovered: _, critical: _ }, ... }
+        };
+
+        const countriesCovidStatsArray = response.data.data;
+
+        for (let continent in continentCountriesObject) {
+            const continentCountriesArray = continentCountriesObject[continent];
+            for (let country of continentCountriesArray) {
+                const countryCovidStats = countriesCovidStatsArray.find((countryCovidStats) => countryCovidStats.name === country);
+                if (countryCovidStats) {
+                    let countryCovidStatsObject = {
+                        confirmed: countryCovidStats.latest_data.confirmed, 
+                        deaths: countryCovidStats.latest_data.deaths, 
+                        recovered: countryCovidStats.latest_data.recovered, 
+                        critical: countryCovidStats.latest_data.critical
+                    }
+                    resultObject[country] = countryCovidStatsObject;
+                }
+            }
+        }
+
+        setChart(resultObject)
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Fetch and assign all countries properties into the chart
+const fetchAllCountriesCovidStats = async (url, allContinentsObject) => {
+    try {
+        const response = await axios.get(url);
+        const resultObject = {
+            Asia: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+            Africa: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+            Americas: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+            Antarctica: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+            Europe: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+            Oceania: {confirmed: 0, deaths: 0, recovered: 0, critical: 0},
+        }
+
+        const countriesCovidStatsArray = response.data.data;
+        for (let countryCovidStats of countriesCovidStatsArray) {
+            for (let continent in allContinentsObject) {
+                if (allContinentsObject[continent].find((country) => country === countryCovidStats.name)) {
+                    let latestData = countryCovidStats.latest_data;
+
+                    if (resultObject.hasOwnProperty(continent)) {
+                        resultObject[continent].confirmed += latestData.confirmed;
+                        resultObject[continent].deaths += latestData.deaths;
+                        resultObject[continent].recovered += latestData.recovered;
+                        resultObject[continent].critical += latestData.critical;
+                    }
+                    break;
+                }
+            }
+        }
+
+        setChart(resultObject);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const setChart = (countriesCovidStatsObject) => {
+    const datasetsArray = chart.data.datasets;
+    
+    datasetsArray.forEach((dataset) => {
+        dataset.data = [];
+    })
+
+    chart.data.labels = Object.keys(countriesCovidStatsObject);
+    for (let country in countriesCovidStatsObject) {
+        chart.data.labels
+        datasetsArray[0].data.push(countriesCovidStatsObject[country].confirmed);
+        datasetsArray[1].data.push(countriesCovidStatsObject[country].deaths);
+        datasetsArray[2].data.push(countriesCovidStatsObject[country].recovered);
+        datasetsArray[3].data.push(countriesCovidStatsObject[country].critical);
+    }
+
+    chart.update();
 }
 
 let isOnload = true;
@@ -71,71 +157,5 @@ const setDropDowns = (regionsObject) => {
 }
 
 
-const fetchSpecificContinentCovidStats = async (url, countriesByContinentObject) => {
-    try {
-        const response = await axios.get(url);
-        const resultObject = {};
 
-        
-
-
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// Fetch and assign all countries properties into the chart
-const fetchAllContinentsCovidStats = async (url, countriesByAllContinentsObject) => {
-    try {
-        const response = await axios.get(url);
-        const continentsCovidStatsObject = {
-            Asia: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-            Africa: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-            Americas: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-            Antarctica: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-            Europe: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-            Oceania: {confirmed: 0,deaths: 0, recovered: 0, critical: 0},
-        }
-
-        const countriesCovidStatsArray = response.data.data;
-        for (let countryCovidStats of countriesCovidStatsArray) {
-            for (let continent in countriesByAllContinentsObject) {
-                if (countriesByAllContinentsObject[continent].find((country) => country === countryCovidStats.name)) {
-                    let latestData = countryCovidStats.latest_data;
-
-                    if (continentsCovidStatsObject.hasOwnProperty(continent)) {
-                        continentsCovidStatsObject[continent].confirmed += latestData.confirmed;
-                        continentsCovidStatsObject[continent].deaths += latestData.deaths;
-                        continentsCovidStatsObject[continent].recovered += latestData.recovered;
-                        continentsCovidStatsObject[continent].critical += latestData.critical;
-                    }
-                    break;
-                }
-            }
-        }
-
-        setChart(continentsCovidStatsObject);
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-const setChart = (continentsCovidStatsObject) => {
-    const datasetsArray = chart.data.datasets;
-
-    for(const continent in continentsCovidStatsObject) {
-        datasetsArray[0].data.push(continentsCovidStatsObject[continent].confirmed);
-        datasetsArray[1].data.push(continentsCovidStatsObject[continent].deaths);
-        datasetsArray[2].data.push(continentsCovidStatsObject[continent].recovered);
-        datasetsArray[3].data.push(continentsCovidStatsObject[continent].critical);
-    }
-
-    chart.update();
-}
-
-
-
-
-export {fetchCountriesNames, fetchAllContinentsCovidStats};
+export {fetchCountriesNames, fetchAllCountriesCovidStats, fetchContinentCountriesCovidStats};
