@@ -1,13 +1,12 @@
 import { chart } from './chart.js';
 
 // Fetch and assign all countries names by requested by continents in an object
-const fetchCountries = async (requestedObject, chainedFetchObject) => {
+const fetchCountriesNames = async (myRequest) => {
     try {
-        const response = await axios.get(requestedObject.url);
+        const response = await axios.get(myRequest.url);
         const resultObject = {};
 
-        
-        if (requestedObject.name === 'world') {
+        if (myRequest.name === 'world') {
             response.data.forEach((country) => {
                 if (country.region.length > 0) {
                     // County's continent exists and this continent requested
@@ -18,23 +17,41 @@ const fetchCountries = async (requestedObject, chainedFetchObject) => {
                     }
                 }
             })
-        } else {
+        } else if (['Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Oceania'].includes(myRequest.name)) {
             // requested all countries of specific continent
-            resultObject[requestedObject.name] = [];
+            resultObject[myRequest.name] = [];
+            resultObject['shortname-format']
             response.data.forEach((country) => {
-                resultObject[requestedObject.name].push(country);
+                resultObject[myRequest.name].push(country);
             });
+        } else {
+            // requested specific country
         }
 
-        chainedFetchObject.myFetch(chainedFetchObject.url, resultObject);
+        myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
 
       } catch (error) {
         console.error(error);
     }
 }
 
+
+const fetchSpecificContinentCovidStats = async (url, countriesByContinentObject) => {
+    try {
+        const response = await axios.get(url);
+        const resultObject = {};
+
+        
+
+
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // Fetch and assign all countries properties into the chart
-const fetchContinentCovidStats = async (url, countriesByContinentObject) => {
+const fetchAllContinentsCovidStats = async (url, countriesByAllContinentsObject) => {
     try {
         const response = await axios.get(url);
         const continentsCovidStatsObject = {
@@ -48,8 +65,8 @@ const fetchContinentCovidStats = async (url, countriesByContinentObject) => {
 
         const countriesCovidStatsArray = response.data.data;
         for (let countryCovidStats of countriesCovidStatsArray) {
-            for (let continent in countriesByContinentObject) {
-                if (countriesByContinentObject[continent].find((country) => country === countryCovidStats.name)) {
+            for (let continent in countriesByAllContinentsObject) {
+                if (countriesByAllContinentsObject[continent].find((country) => country === countryCovidStats.name)) {
                     let latestData = countryCovidStats.latest_data;
 
                     if (continentsCovidStatsObject.hasOwnProperty(continent)) {
@@ -86,4 +103,4 @@ const setChart = (continentsCovidStatsObject) => {
 
 
 
-export {fetchCountries, fetchContinentCovidStats};
+export {fetchCountriesNames, fetchAllContinentsCovidStats};

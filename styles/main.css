@@ -313,3 +313,11 @@ template {
   width: 100vw;
   height: 100vh;
   background: rgba(204, 87, 87, 0.527); }
+
+.navbar {
+  display: flex;
+  justify-content: space-between; }
+  .navbar-left {
+    padding: 1vh; }
+  .navbar-right {
+    padding: 1vh; }

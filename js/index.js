@@ -1,26 +1,20 @@
-import {chart} from './chart/chart.js'
-import {fetchCountries, fetchContinentCovidStats} from './chart/functions.js'
+import {chart} from './chart/chart.js';
+import {fetchCountriesNames, fetchAllContinentsCovidStats} from './chart/functions.js';
+import MyRequest from './my_request.js';
 
 
+const countriesISO_url = 'https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json';
+const world_url = 'http://localhost:8000/all_countries';
+const continent_url = 'http://localhost:8000/africa_continent';
+
+const worldCovid_url = 'http://localhost:8000/covid_all_countries';
+const countryCovid_url = ' http://corona-api.com/countries/ZW';
+
+const myRequest1 = new MyRequest('world', world_url, fetchAllContinentsCovidStats, worldCovid_url);
+const myRequest2 = new MyRequest('Africa', continent_url, fetchAllContinentsCovidStats, worldCovid_url);
 
 
-const requestedObject = {
-    name: 'world',
-    url: 'http://localhost:8000/all_countries',
-}
-
-// const requestedObject = {
-//     name: 'Africa',
-//     url: 'http://localhost:8000/africa_continent',
-// }
-
-const chainedFetchObject = {
-    myFetch: fetchContinentCovidStats, 
-    url: 'http://localhost:8000/covid_all_countries'
-}
-
-
-fetchCountries(requestedObject, chainedFetchObject);
+fetchCountriesNames(myRequest2);
 
 
 

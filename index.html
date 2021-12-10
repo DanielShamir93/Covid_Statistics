@@ -16,9 +16,27 @@
     <link rel="stylesheet" href="./styles/main.css">
 </head>
 <body>
-    <div class="chart">
-        <canvas class="my-chart"></canvas>
+    <div class="container">
+        <nav class="navbar">
+            <span class="navbar-left">
+                <span>World Covid Statistics</span>
+            </span>
+            <span class="navbar-right">
+                <label for="continent_select">Continent: </label>
+                <select name="" id="continent_select">
+                    <option value="All">All</option>
+                </select>
+                <label for="country_select">Country: </label>
+                <select name="" id="country_select">
+                    <option value="All">All</option>
+                </select>
+            </span>
+        </nav>
+        <div class="chart">
+            <canvas class="my-chart"></canvas>
+        </div>
     </div>
+    
       
 </body>
 <script>
