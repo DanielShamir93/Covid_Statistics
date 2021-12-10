@@ -7,7 +7,7 @@ const fetchCountriesNames = async (myRequest) => {
         // {continent: [...countries]}
         const resultObject = {};
 
-        if (myRequest.name === 'world') {
+        if (myRequest.name === 'All') {
             response.data.forEach((country) => {
                 if (country.region.length > 0) {
                     // County's continent exists and this continent requested
@@ -17,22 +17,23 @@ const fetchCountriesNames = async (myRequest) => {
                         resultObject[country.region] = [country.name.common];
                     }
                 }
-            })
+            });
+            console.log(resultObject)
         } else if (['Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Oceania'].includes(myRequest.name)) {
             // requested all countries of specific continent
             resultObject[myRequest.name] = [];
             resultObject['shortname-format']
             response.data.forEach((country) => {
-                resultObject[myRequest.name].push(country);
+                resultObject[myRequest.name].push(country.name.common);
             });
-            console.log(resultObject)
+            console.log(resultObject);
         } else {
             // requested specific country
-            
+
         }
 
         setDropDowns(resultObject);
-        myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
+        // myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
         
 
       } catch (error) {
@@ -40,20 +41,27 @@ const fetchCountriesNames = async (myRequest) => {
     }
 }
 
+let isOnload = true;
 const setDropDowns = (regionsObject) => {
-    const continentSelectElement = document.querySelector('.continent-select');
-    const countrySelectElement = document.querySelector('.country-select');
-
-    const continents = Object.keys(regionsObject);
-    const countries = Object.values(regionsObject);
-
-    for (let continent of continents) {
-        let option = document.createElement('option');
-        option.textContent = continent;
-        option.value = continent;
-        continentSelectElement.appendChild(option);
+    if (isOnload) {
+        // Set continents dropdown
+        const continentSelectElement = document.querySelector('.continent-select');
+        continentSelectElement.innerHTML = '<option value="All">All</option>';
+        const continents = Object.keys(regionsObject);
+        for (let continent of continents) {
+            let option = document.createElement('option');
+            option.textContent = continent;
+            option.value = continent;
+            continentSelectElement.appendChild(option);
+            isOnload = false;
+        }
     }
-
+    
+    // Set countries dropdown
+    const countrySelectElement = document.querySelector('.country-select');
+    const countries = Object.values(regionsObject);
+    
+    countrySelectElement.innerHTML = '<option value="All">All</option>';
     for (let country of countries.flat()) {
         let option = document.createElement('option');
         option.textContent = country;

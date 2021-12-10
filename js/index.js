@@ -11,7 +11,7 @@ const continent_url = 'http://localhost:8000/africa_continent';
 const worldCovid_url = 'http://localhost:8000/covid_all_countries';
 const countryCovid_url = ' http://corona-api.com/countries/ZW';
 
-const myRequest1 = new MyRequest('world', world_url, fetchAllContinentsCovidStats, worldCovid_url);
+const myRequest1 = new MyRequest('All', world_url, fetchAllContinentsCovidStats, worldCovid_url);
 const myRequest2 = new MyRequest('Africa', continent_url, fetchAllContinentsCovidStats, worldCovid_url);
 
 
