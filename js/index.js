@@ -1,9 +1,10 @@
 import {chart} from './chart/chart.js';
 import {fetchCountriesNames, fetchAllContinentsCovidStats} from './chart/functions.js';
 import MyRequest from './my_request.js';
+import {dropDownListener} from './chart/listeners.js';
 
-
-const countriesISO_url = 'https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json';
+// const countriesISO_url = 'https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json';
+const countriesISO_url = 'http://localhost:8000/ISO-countries';
 const world_url = 'http://localhost:8000/all_countries';
 const continent_url = 'http://localhost:8000/africa_continent';
 
@@ -14,7 +15,7 @@ const myRequest1 = new MyRequest('world', world_url, fetchAllContinentsCovidStat
 const myRequest2 = new MyRequest('Africa', continent_url, fetchAllContinentsCovidStats, worldCovid_url);
 
 
-fetchCountriesNames(myRequest2);
+fetchCountriesNames(myRequest1);
 
 
 

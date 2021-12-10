@@ -4,6 +4,7 @@ import { chart } from './chart.js';
 const fetchCountriesNames = async (myRequest) => {
     try {
         const response = await axios.get(myRequest.url);
+        // {continent: [...countries]}
         const resultObject = {};
 
         if (myRequest.name === 'world') {
@@ -24,14 +25,40 @@ const fetchCountriesNames = async (myRequest) => {
             response.data.forEach((country) => {
                 resultObject[myRequest.name].push(country);
             });
+            console.log(resultObject)
         } else {
             // requested specific country
+            
         }
 
+        setDropDowns(resultObject);
         myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
+        
 
       } catch (error) {
         console.error(error);
+    }
+}
+
+const setDropDowns = (regionsObject) => {
+    const continentSelectElement = document.querySelector('.continent-select');
+    const countrySelectElement = document.querySelector('.country-select');
+
+    const continents = Object.keys(regionsObject);
+    const countries = Object.values(regionsObject);
+
+    for (let continent of continents) {
+        let option = document.createElement('option');
+        option.textContent = continent;
+        option.value = continent;
+        continentSelectElement.appendChild(option);
+    }
+
+    for (let country of countries.flat()) {
+        let option = document.createElement('option');
+        option.textContent = country;
+        option.value = country;
+        countrySelectElement.appendChild(option);
     }
 }
 
