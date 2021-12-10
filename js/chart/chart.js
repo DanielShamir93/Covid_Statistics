@@ -1,76 +1,127 @@
-
-const ctx = document.querySelector('.my-chart').getContext('2d');
-
-const bars = {
-    ConfirmedCases: {
-        label: 'Confirmed Cases',
-        data: [10, 10],
-        backgroundColor: 'purple',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        hoverBackgroundColor: 'pink',
-        hoverBorderColor: 'red',
-        pointStyle: 'circle',
-    },
-    NumberOfDeaths: {
-        label: 'Number Of Deaths',
-        data: [20, 10],
-        backgroundColor: 'brown',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        hoverBackgroundColor: 'pink',
-        hoverBorderColor: 'red'
-    },
-    NumberOfRecovered: {
-        label: 'Number of recovered',
-        data: [30, 10],
-        backgroundColor: 'orange',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        hoverBackgroundColor: 'pink',
-        hoverBorderColor: 'red'
-    },
-    NumberOfCriticalCondition: {
-        label: 'Number Of Critical Condition',
-        data: [40, 10],
-        backgroundColor: 'green',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        hoverBackgroundColor: 'pink',
-        hoverBorderColor: 'red'
-    }
-
-}
-
-
 const data = {
     labels: ['Asia', 'Africa', 'America', 'Antarctica', 'Europe', 'Oceania'],
     datasets: [
-        bars.ConfirmedCases,
-        bars.NumberOfDeaths,
-        bars.NumberOfRecovered,
-        bars.NumberOfCriticalCondition
+        {
+            label: 'Confirmed Cases',
+            data: [],
+            backgroundColor: 'purple',
+            borderWidth: 1,
+            borderColor: 'black',
+            borderRadius: 5,
+            hoverBackgroundColor: 'pink',
+            hoverBorderColor: 'red',
+            pointStyle: 'circle',
+        },
+        {
+            label: 'Number Of Deaths',
+            data: [],
+            backgroundColor: 'brown',
+            borderWidth: 1,
+            borderColor: 'black',
+            borderRadius: 5,
+            hoverBackgroundColor: 'pink',
+            hoverBorderColor: 'red'
+        },
+        {
+            label: 'Number of recovered',
+            data: [],
+            backgroundColor: 'orange',
+            borderWidth: 1,
+            borderColor: 'black',
+            borderRadius: 5,
+            hoverBackgroundColor: 'pink',
+            hoverBorderColor: 'red'
+        },
+        {
+            label: 'Number Of Critical Condition',
+            data: [],
+            backgroundColor: 'green',
+            borderWidth: 1,
+            borderColor: 'black',
+            borderRadius: 5,
+            hoverBackgroundColor: 'pink',
+            hoverBorderColor: 'red'
+        }
     ],
 }
 
+Chart.defaults.color = "black";
 const config = {
     type: 'bar',
     data: data,
     options: {
+        onHover: (e, chartElement) => {
+            e.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+        },
         responsive: true,
+        parsing: {
+            xAxisKey: 'browser'
+        },
         scales: {
             y: {
-                beginAtZero: true,
+                ticks: {
+                    font: {
+                        family: 'Permanent Marker', // Your font family
+                        size: 14,
+                    },
+                    beginAtZero: true,
+                    callback: function (value) {
+                        return value.toString().slice(0, 2) + 'M';
+                    }
+                },
+            },
+            x: {
+                ticks: {
+                    font: {
+                        family: 'Permanent Marker', // Your font family
+                        size: 14,
+                    },
+                }
             }
         },
+        plugins: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 20,
+                        family: 'Permanent Marker',
+                    }
+                },
+                pointLabels: {
+                    font: "Permanent Marker"
+                }
+            }
+        },
+        animation: {
+            duration: 2000,
+            easing: 'easeInEaseOut'
+        }
     }    
 }
 
-const chart = new Chart(ctx, config);
+const myChart = document.querySelector('.my-chart');
+const chart = new Chart(myChart, config);
 
-export {chart};
+const clickHandler = (e) => {
+    const bar = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+    if (bar.length > 0) {
+        changeChart(bar[0].index, bar[0].datasetIndex)
+    }
+}
+
+const changeChart = (index, datasetIndex) => {
+    // console.log(continent)
+    // chart.config.data.datasets[3].data = [10000000, 10000000,10000000,10000000];
+    // chart.update();
+    console.log(index, datasetIndex)
+
+
+    
+}
+
+myChart.addEventListener('click', clickHandler)
+
+
+export { chart };
 
