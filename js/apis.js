@@ -13,5 +13,3 @@ const apis = {
 }
 
 export { apis };
-
-// 'http://corona-api.com/countries/MY';
