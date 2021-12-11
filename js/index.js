@@ -4,8 +4,9 @@ import MyRequest from './modules/my_request.js';
 import { apis } from './apis.js';
 
 
-const myRequest1 = new MyRequest('All', apis.WorldCountries_url, fetchAllCountriesCovidStats, apis.worldCountriesCovidStats_url);
-firstStepFetch(myRequest1);
+firstStepFetch(
+    new MyRequest('All', apis.WorldCountries_url, fetchAllCountriesCovidStats, apis.worldCountriesCovidStats_url)
+);
 
 
 

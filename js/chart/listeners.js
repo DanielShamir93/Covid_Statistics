@@ -1,9 +1,8 @@
-import {firstStepFetch, fetchAllCountriesCovidStats, fetchContinentCountriesCovidStats, fetchCountryCovidStats} from './functions.js';
+import { firstStepFetch, fetchAllCountriesCovidStats, fetchContinentCountriesCovidStats, fetchCountryCovidStats } from './functions.js';
 import MyRequest from '../modules/my_request.js';
 import { apis } from '../apis.js';
 
 const dropDownListener = document.addEventListener('change', (e) => {
-
     if (e.target.className === 'continent-select' || e.target.className === 'country-select') {
         const continentSelectElement = document.querySelector('.continent-select');
         const continentName = continentSelectElement.value;
@@ -28,12 +27,8 @@ const dropDownListener = document.addEventListener('change', (e) => {
                 myRequest = new MyRequest(countryName, apis.WorldCountries_url, fetchCountryCovidStats, apis.countryCovidStats_url);
             }
         }
-
         firstStepFetch(myRequest)
     }
-
-    
-    
 }) 
 
 

@@ -1,6 +1,6 @@
 import { chart } from './chart.js';
 
-// Fetch and assign all countries names by requested by continents in an object
+// Fetch and assign all countries names into result object and call second fetch
 const firstStepFetch = async (myRequest) => {
     startLoadTime();
     try {
@@ -40,6 +40,7 @@ const firstStepFetch = async (myRequest) => {
             }
         }
 
+        // Calling second fetch
         myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
         
       } catch (error) {
@@ -47,6 +48,7 @@ const firstStepFetch = async (myRequest) => {
     }
 }
 
+// Second fetch for getting specific country Covid stats
 const fetchCountryCovidStats = async (url, countryObject) => {
     try {
         const response = await axios.get(url + Object.values(countryObject)[0]);
@@ -64,14 +66,13 @@ const fetchCountryCovidStats = async (url, countryObject) => {
             newConfirmed: countryCovidStats.today.confirmed, 
             newDeath: countryCovidStats.today.deaths
         }
-
         setChart(resultObject, 'country');
-
     } catch (error) {
         console.error(error);
     }
 }
 
+// Second fetch for getting specific continent countries Covid stats
 const fetchContinentCountriesCovidStats = async (url, continentCountriesObject) => {
     try {
         const response = await axios.get(url);
@@ -96,15 +97,13 @@ const fetchContinentCountriesCovidStats = async (url, continentCountriesObject) 
                 }
             }
         }
-
         setChart(resultObject, 'continent')
-
     } catch (error) {
         console.error(error);
     }
 }
 
-// Fetch and assign all countries properties into the chart
+// Second fetch for getting all countries Covid stats
 const fetchAllCountriesCovidStats = async (url, allContinentsObject) => {
     try {
         const response = await axios.get(url);
@@ -133,14 +132,13 @@ const fetchAllCountriesCovidStats = async (url, allContinentsObject) => {
                 }
             }
         }
-
         setChart(resultObject, 'world');
-
     } catch (error) {
         console.error(error);
     }
 }
 
+// Set the chart due to the second fetch function
 const setChart = (resultObject, type) => {
     let datasetsArray = chart.data.datasets;
     
@@ -181,6 +179,7 @@ const setChart = (resultObject, type) => {
     
 }
 
+// Function for setChart function to get new dataset
 const newDataSet = (name, backgroundColor, hoverBackgroundColor) => {
     return {
         label: name,
@@ -191,6 +190,7 @@ const newDataSet = (name, backgroundColor, hoverBackgroundColor) => {
     }
 }
 
+// Set the dropdown selectors due to the current selection
 let isOnload = true;
 const setDropDowns = (regionsObject) => {
     if (isOnload) {
@@ -220,6 +220,7 @@ const setDropDowns = (regionsObject) => {
     }
 }
 
+// Prevent new fetches while fetching data 
 const startLoadTime = () => {
     const loadingLogo = document.querySelector('.loading-logo');
     const continentSelect = document.querySelector('.continent-select');
@@ -230,6 +231,7 @@ const startLoadTime = () => {
     countrySelect.disabled = true;
 }
 
+// Allow new fetch
 const stopLoadTime = () => {
     const loadingLogo = document.querySelector('.loading-logo');
     const continentSelect = document.querySelector('.continent-select');
