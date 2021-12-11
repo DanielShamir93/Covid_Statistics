@@ -1,7 +1,10 @@
 import { chart } from './chart.js';
 
+const loadingLogo = document.querySelector('.loading-logo');
+
 // Fetch and assign all countries names by requested by continents in an object
 const firstStepFetch = async (myRequest) => {
+    loadingLogo.style.display = 'block';
     try {
         const response = await axios.get(myRequest.url);
         const resultObject = {
@@ -173,6 +176,10 @@ const setChart = (resultObject, type) => {
     }
     
     chart.update();
+    setTimeout(() => {
+        loadingLogo.style.display = 'none';
+    }, 2000)
+    
 }
 
 const newDataSet = (name, backgroundColor, hoverBackgroundColor) => {

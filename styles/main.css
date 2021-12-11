@@ -309,6 +309,22 @@ template {
   box-sizing: border-box;
   user-select: none; }
 
+@keyframes loading-animation {
+  0% {
+    transform: translate(0, -50%) rotate(-90deg); }
+  50% {
+    transform: translate(-100%, -50%) rotate(-90deg); }
+  100% {
+    transform: translate(0, -50%) rotate(-90deg); } }
+
+.chart {
+  position: relative;
+  width: 80vw;
+  background: rgba(255, 255, 255, 0.568);
+  border-radius: 2vh;
+  box-shadow: 0 0 3vh rgba(0, 0, 0, 0.2);
+  padding: 3vh; }
+
 body {
   display: flex;
   justify-content: center;
@@ -347,9 +363,30 @@ body {
     white-space: nowrap; }
     .navbar-right label {
       margin-left: 5vh; }
+    .navbar-right select {
+      background: transparent;
+      border-radius: 1vh;
+      border: none;
+      box-shadow: 0 0 1vh #bd20256c;
+      cursor: pointer; }
+    .navbar-right select:hover {
+      box-shadow: 0 0 1vh #bd2025; }
 
 .chart {
   position: relative;
   width: 80vw;
   background: rgba(255, 255, 255, 0.568);
-  border-radius: 2vh; }
+  border-radius: 2vh;
+  box-shadow: 0 0 3vh rgba(0, 0, 0, 0.2);
+  padding: 3vh; }
+
+.loading-logo {
+  position: absolute;
+  background-image: url(../assets/images/virus-search.png);
+  background-size: cover;
+  top: 50%;
+  left: 50%;
+  transform: translate(0, -50%) rotate(-90deg);
+  width: 30vh;
+  height: 30vh;
+  animation: loading-animation 1.5s infinite; }
