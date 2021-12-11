@@ -38,7 +38,6 @@ const firstStepFetch = async (myRequest) => {
             }
         }
 
-        
         myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
         
       } catch (error) {
@@ -48,7 +47,7 @@ const firstStepFetch = async (myRequest) => {
 
 const fetchCountryCovidStats = async (url, countryObject) => {
     try {
-        const response = await axios.get(url);
+        const response = await axios.get(url + Object.values(countryObject)[0]);
         const countryCovidStats = response.data.data;
         const country = Object.keys(countryObject)[0];
         const resultObject = {
@@ -159,8 +158,10 @@ const setChart = (resultObject, type) => {
             datasetsArray[3].data.push(resultObject[item].critical);
         }
     } else if (type === 'country') {
-        datasetsArray.push(newDataSet('New Cases', 'blue'));
-        datasetsArray.push(newDataSet('New Deaths', 'gray'));
+        if (datasetsArray.length === 4) {
+            datasetsArray.push(newDataSet('New Cases', 'blue'));
+            datasetsArray.push(newDataSet('New Deaths', 'gray'));
+        }
         for (let item in resultObject) {
             datasetsArray[0].data.push(resultObject[item].confirmed);
             datasetsArray[1].data.push(resultObject[item].deaths);
