@@ -159,8 +159,8 @@ const setChart = (resultObject, type) => {
         }
     } else if (type === 'country') {
         if (datasetsArray.length === 4) {
-            datasetsArray.push(newDataSet('New Cases', 'blue'));
-            datasetsArray.push(newDataSet('New Deaths', 'gray'));
+            datasetsArray.push(newDataSet('New Cases', 'rgba(0, 0, 255, 0.7)', 'blue'));
+            datasetsArray.push(newDataSet('New Deaths', 'rgba(255, 0, 0, 0.7)', 'red'));
         }
         for (let item in resultObject) {
             datasetsArray[0].data.push(resultObject[item].confirmed);
@@ -175,11 +175,13 @@ const setChart = (resultObject, type) => {
     chart.update();
 }
 
-const newDataSet = (name, backgroundColor) => {
+const newDataSet = (name, backgroundColor, hoverBackgroundColor) => {
     return {
         label: name,
         data: [],
-        backgroundColor: backgroundColor,
+        borderRadius: 10,
+        backgroundColor,
+        hoverBackgroundColor
     }
 }
 

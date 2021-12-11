@@ -10,14 +10,16 @@
     <script type="module" src="./js/index.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Nosifer&family=Permanent+Marker&family=Rampart+One&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Patua+One&family=Permanent+Marker&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="./styles/main.css">
 </head>
 <body>
     <div class="container">
         <nav class="navbar">
             <span class="navbar-left">
-                <span>World Covid Statistics</span>
+                <figure class="virus-logo">
+                    <p class="title"><span>Covid-19</span> statistics</p>
+                </figure>
             </span>
             <span class="navbar-right">
                 <label for="continent_select">Continent: </label>
@@ -32,6 +34,9 @@
         </nav>
         <div class="chart">
             <canvas class="my-chart"></canvas>
+        </div>
+        <div class="loading">
+            <figure class="loading-logo"></figure>
         </div>
     </div>
     

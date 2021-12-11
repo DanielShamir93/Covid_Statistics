@@ -1,33 +1,33 @@
-// borderWidth: 1,
-// borderColor: 'black',
-// borderRadius: 5,
-// hoverBackgroundColor: 'pink',
-// hoverBorderColor: 'red',
-// pointStyle: 'circle',
-
-
 const data = {
     labels: ['Asia', 'Africa', 'America', 'Antarctica', 'Europe', 'Oceania'],
     datasets: [
         {
             label: 'Confirmed Cases',
             data: [],
-            backgroundColor: 'purple',
+            backgroundColor: 'rgba(128, 0, 128, 0.6)',
+            borderRadius: 10,
+            hoverBackgroundColor: 'purple',
         },
         {
             label: 'Number Of Deaths',
             data: [],
-            backgroundColor: 'brown',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            borderRadius: 10,
+            hoverBackgroundColor: 'black',
         },
         {
             label: 'Number of recovered',
             data: [],
-            backgroundColor: 'orange',
+            backgroundColor: 'rgba(0, 128, 0, 0.7)',
+            borderRadius: 10,
+            hoverBackgroundColor: 'green',
         },
         {
             label: 'Number Of Critical Condition',
             data: [],
-            backgroundColor: 'green',
+            backgroundColor: 'rgba(255, 166, 0, 0.7)',
+            borderRadius: 10,
+            hoverBackgroundColor: 'orange',
         }
     ],
 }
@@ -48,7 +48,7 @@ const config = {
             y: {
                 ticks: {
                     font: {
-                        family: 'Permanent Marker', // Your font family
+                        family: 'Patua One', // Your font family
                         size: 14,
                     },
                     beginAtZero: true,
@@ -60,8 +60,8 @@ const config = {
             x: {
                 ticks: {
                     font: {
-                        family: 'Permanent Marker', // Your font family
-                        size: 14,
+                        family: 'Patua One', // Your font family
+                        size: 20,
                     },
                 }
             }
@@ -72,7 +72,7 @@ const config = {
                     // This more specific font property overrides the global property
                     font: {
                         size: 20,
-                        family: 'Permanent Marker',
+                        family: 'Patua One',
                     }
                 },
                 pointLabels: {
@@ -89,26 +89,6 @@ const config = {
 
 const myChart = document.querySelector('.my-chart');
 const chart = new Chart(myChart, config);
-
-const clickHandler = (e) => {
-    const bar = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
-    if (bar.length > 0) {
-        changeChart(bar[0].index, bar[0].datasetIndex)
-    }
-}
-
-const changeChart = (index, datasetIndex) => {
-    // console.log(continent)
-    // chart.config.data.datasets[3].data = [10000000, 10000000,10000000,10000000];
-    // chart.update();
-    console.log(index, datasetIndex)
-
-
-    
-}
-
-myChart.addEventListener('click', clickHandler)
-
 
 export { chart };
 

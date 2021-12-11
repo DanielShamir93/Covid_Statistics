@@ -307,7 +307,7 @@ template {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Nosifer'; }
+  user-select: none; }
 
 body {
   display: flex;
@@ -325,11 +325,31 @@ body {
 .navbar {
   display: flex;
   justify-content: space-between;
-  width: 100%; }
+  width: 100%;
+  font-family: 'Patua One'; }
+  .navbar-left {
+    white-space: nowrap; }
+    .navbar-left .virus-logo {
+      background-image: url(../assets/images/virus-logo.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      font-size: 3vh;
+      line-height: 7vh; }
+      .navbar-left .virus-logo .title {
+        text-indent: 8vh; }
+        .navbar-left .virus-logo .title span {
+          font-family: 'Nosifer';
+          color: #BD2025;
+          text-decoration: underline; }
+  .navbar-right {
+    line-height: 7vh;
+    font-size: 2.5vh;
+    white-space: nowrap; }
+    .navbar-right label {
+      margin-left: 5vh; }
 
 .chart {
   position: relative;
-  width: 90vw;
-  height: 90vh;
+  width: 80vw;
   background: rgba(255, 255, 255, 0.568);
   border-radius: 2vh; }
