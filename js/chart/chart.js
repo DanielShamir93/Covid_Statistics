@@ -1,3 +1,11 @@
+// borderWidth: 1,
+// borderColor: 'black',
+// borderRadius: 5,
+// hoverBackgroundColor: 'pink',
+// hoverBorderColor: 'red',
+// pointStyle: 'circle',
+
+
 const data = {
     labels: ['Asia', 'Africa', 'America', 'Antarctica', 'Europe', 'Oceania'],
     datasets: [
@@ -5,42 +13,21 @@ const data = {
             label: 'Confirmed Cases',
             data: [],
             backgroundColor: 'purple',
-            borderWidth: 1,
-            borderColor: 'black',
-            borderRadius: 5,
-            hoverBackgroundColor: 'pink',
-            hoverBorderColor: 'red',
-            pointStyle: 'circle',
         },
         {
             label: 'Number Of Deaths',
             data: [],
             backgroundColor: 'brown',
-            borderWidth: 1,
-            borderColor: 'black',
-            borderRadius: 5,
-            hoverBackgroundColor: 'pink',
-            hoverBorderColor: 'red'
         },
         {
             label: 'Number of recovered',
             data: [],
             backgroundColor: 'orange',
-            borderWidth: 1,
-            borderColor: 'black',
-            borderRadius: 5,
-            hoverBackgroundColor: 'pink',
-            hoverBorderColor: 'red'
         },
         {
             label: 'Number Of Critical Condition',
             data: [],
             backgroundColor: 'green',
-            borderWidth: 1,
-            borderColor: 'black',
-            borderRadius: 5,
-            hoverBackgroundColor: 'pink',
-            hoverBorderColor: 'red'
         }
     ],
 }
@@ -65,9 +52,9 @@ const config = {
                         size: 14,
                     },
                     beginAtZero: true,
-                    callback: function (value) {
-                        return value.toString().slice(0, 2) + 'M';
-                    }
+                    // callback: function (value) {
+                    //     return value.toString().slice(0, 2) + 'M';
+                    // }
                 },
             },
             x: {

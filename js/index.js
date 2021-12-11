@@ -1,5 +1,5 @@
 import {chart} from './chart/chart.js';
-import {fetchCountriesNames, fetchAllCountriesCovidStats} from './chart/functions.js';
+import {firstStepFetch, fetchAllCountriesCovidStats} from './chart/functions.js';
 import MyRequest from './my_request.js';
 import {dropDownListener} from './chart/listeners.js';
 
@@ -15,7 +15,7 @@ const myRequest1 = new MyRequest('All', world_url, fetchAllCountriesCovidStats, 
 const myRequest2 = new MyRequest('Africa', continent_url, fetchAllCountriesCovidStats, worldCovid_url);
 
 
-fetchCountriesNames(myRequest1);
+firstStepFetch(myRequest1);
 
 
 

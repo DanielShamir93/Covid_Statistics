@@ -1,7 +1,7 @@
 import { chart } from './chart.js';
 
 // Fetch and assign all countries names by requested by continents in an object
-const fetchCountriesNames = async (myRequest) => {
+const firstStepFetch = async (myRequest) => {
     try {
         const response = await axios.get(myRequest.url);
         const resultObject = {
@@ -19,22 +19,54 @@ const fetchCountriesNames = async (myRequest) => {
                     }
                 }
             });
+            setDropDowns(resultObject);
+
         } else if (['Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Oceania'].includes(myRequest.name)) {
             // requested all countries of specific continent
             resultObject[myRequest.name] = [];
             response.data.forEach((country) => {
                 resultObject[myRequest.name].push(country.name.common);
             });
+            setDropDowns(resultObject);
+
         } else {
             // requested specific country
-
+            for (let country of response.data) {
+                if (country.Name === myRequest.name) {
+                    resultObject[myRequest.name] = country.Code;
+                }
+            }
         }
 
-        setDropDowns(resultObject);
+        
         myRequest.concatenate.fetchFunction(myRequest.concatenate.url, resultObject);
         
-
       } catch (error) {
+        console.error(error);
+    }
+}
+
+const fetchCountryCovidStats = async (url, countryObject) => {
+    try {
+        const response = await axios.get(url);
+        const countryCovidStats = response.data.data;
+        const country = Object.keys(countryObject)[0];
+        const resultObject = {
+            // { countryName : { confirmed: _, deaths: _, recovered: _, critical: _ }}
+        };
+
+        resultObject[country] = {
+            confirmed: countryCovidStats.latest_data.confirmed, 
+            deaths: countryCovidStats.latest_data.deaths, 
+            recovered: countryCovidStats.latest_data.recovered, 
+            critical: countryCovidStats.latest_data.critical,
+            newConfirmed: countryCovidStats.today.confirmed, 
+            newDeath: countryCovidStats.today.deaths
+        }
+
+        setChart(resultObject, 'country');
+
+    } catch (error) {
         console.error(error);
     }
 }
@@ -64,7 +96,7 @@ const fetchContinentCountriesCovidStats = async (url, continentCountriesObject) 
             }
         }
 
-        setChart(resultObject)
+        setChart(resultObject, 'continent')
 
     } catch (error) {
         console.error(error);
@@ -101,30 +133,53 @@ const fetchAllCountriesCovidStats = async (url, allContinentsObject) => {
             }
         }
 
-        setChart(resultObject);
+        setChart(resultObject, 'world');
 
     } catch (error) {
         console.error(error);
     }
 }
 
-const setChart = (countriesCovidStatsObject) => {
-    const datasetsArray = chart.data.datasets;
+const setChart = (resultObject, type) => {
+    let datasetsArray = chart.data.datasets;
     
     datasetsArray.forEach((dataset) => {
+        // Resets chart data
         dataset.data = [];
     })
 
-    chart.data.labels = Object.keys(countriesCovidStatsObject);
-    for (let country in countriesCovidStatsObject) {
-        chart.data.labels
-        datasetsArray[0].data.push(countriesCovidStatsObject[country].confirmed);
-        datasetsArray[1].data.push(countriesCovidStatsObject[country].deaths);
-        datasetsArray[2].data.push(countriesCovidStatsObject[country].recovered);
-        datasetsArray[3].data.push(countriesCovidStatsObject[country].critical);
+    chart.data.labels = Object.keys(resultObject);
+    if (type === 'world' || type === 'continent') {
+        
+        chart.data.datasets = datasetsArray.filter((dataset) => dataset.label !== 'New Cases' && dataset.label !== 'New Deaths')
+        for (let item in resultObject) {
+            datasetsArray[0].data.push(resultObject[item].confirmed);
+            datasetsArray[1].data.push(resultObject[item].deaths);
+            datasetsArray[2].data.push(resultObject[item].recovered);
+            datasetsArray[3].data.push(resultObject[item].critical);
+        }
+    } else if (type === 'country') {
+        datasetsArray.push(newDataSet('New Cases', 'blue'));
+        datasetsArray.push(newDataSet('New Deaths', 'gray'));
+        for (let item in resultObject) {
+            datasetsArray[0].data.push(resultObject[item].confirmed);
+            datasetsArray[1].data.push(resultObject[item].deaths);
+            datasetsArray[2].data.push(resultObject[item].recovered);
+            datasetsArray[3].data.push(resultObject[item].critical);
+            datasetsArray[4].data.push(resultObject[item].newConfirmed);
+            datasetsArray[5].data.push(resultObject[item].newDeath);
+        }
     }
-
+    
     chart.update();
+}
+
+const newDataSet = (name, backgroundColor) => {
+    return {
+        label: name,
+        data: [],
+        backgroundColor: backgroundColor,
+    }
 }
 
 let isOnload = true;
@@ -158,4 +213,4 @@ const setDropDowns = (regionsObject) => {
 
 
 
-export {fetchCountriesNames, fetchAllCountriesCovidStats, fetchContinentCountriesCovidStats};
+export {firstStepFetch, fetchAllCountriesCovidStats, fetchContinentCountriesCovidStats, fetchCountryCovidStats};
