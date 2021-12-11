@@ -335,8 +335,8 @@ body {
       border-radius: 2vh;
       box-shadow: 0 0 3vh rgba(0, 0, 0, 0.2);
       padding: 3vh; }
-  body .rotate-screen {
-    display: none; }
+    body .container .rotate-screen {
+      display: none; }
 
 .navbar {
   display: flex;
@@ -385,7 +385,7 @@ body {
   height: 30vh;
   animation: loading-animation 1.5s infinite; }
 
-@media (min-width: 769px) and (max-width: 1300px) and (min-height: 601px) {
+@media (min-width: 769px) and (max-width: 1200px) and (min-height: 601px) {
   body .container {
     display: flex;
     flex-flow: column wrap;
@@ -403,19 +403,23 @@ body {
       margin-top: 5vh; } }
 
 @media (max-width: 768px) and (min-height: 601px) {
-  body .container .navbar-right {
-    display: none; }
-  body .container .chart {
-    display: none; }
-  body .container .rotate-screen {
-    display: block;
-    background: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    top: 50%;
-    text-align: center; }
-    body .container .rotate-screen-message {
-      font-size: 10vw;
-      font-family: "Patua One"; } }
+  body .container {
+    justify-content: flex-start; }
+    body .container .navbar {
+      margin-top: 20vh; }
+      body .container .navbar-right {
+        display: none; }
+    body .container .chart {
+      display: none; }
+    body .container .rotate-screen {
+      display: block;
+      background: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      top: 50%;
+      text-align: center; }
+      body .container .rotate-screen-message {
+        font-size: 10vw;
+        font-family: "Patua One"; } }
 
 @media (max-height: 600px) {
   body {

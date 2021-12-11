@@ -1,10 +1,8 @@
 import { chart } from './chart.js';
 
-const loadingLogo = document.querySelector('.loading-logo');
-
 // Fetch and assign all countries names by requested by continents in an object
 const firstStepFetch = async (myRequest) => {
-    loadingLogo.style.display = 'block';
+    startLoadTime();
     try {
         const response = await axios.get(myRequest.url);
         const resultObject = {
@@ -35,8 +33,9 @@ const firstStepFetch = async (myRequest) => {
         } else {
             // requested specific country
             for (let country of response.data) {
-                if (country.Name === myRequest.name) {
-                    resultObject[myRequest.name] = country.Code;
+                if (country.name.common === myRequest.name) {
+                    resultObject[myRequest.name] = country.cca2;
+                    break;
                 }
             }
         }
@@ -177,7 +176,7 @@ const setChart = (resultObject, type) => {
     
     chart.update();
     setTimeout(() => {
-        loadingLogo.style.display = 'none';
+        stopLoadTime();
     }, 2000)
     
 }
@@ -219,6 +218,26 @@ const setDropDowns = (regionsObject) => {
         option.value = country;
         countrySelectElement.appendChild(option);
     }
+}
+
+const startLoadTime = () => {
+    const loadingLogo = document.querySelector('.loading-logo');
+    const continentSelect = document.querySelector('.continent-select');
+    const countrySelect = document.querySelector('.country-select');
+
+    loadingLogo.style.display = 'block';
+    continentSelect.disabled = true;
+    countrySelect.disabled = true;
+}
+
+const stopLoadTime = () => {
+    const loadingLogo = document.querySelector('.loading-logo');
+    const continentSelect = document.querySelector('.continent-select');
+    const countrySelect = document.querySelector('.country-select');
+
+    loadingLogo.style.display = 'none';
+    continentSelect.disabled = false;
+    countrySelect.disabled = false;
 }
 
 
