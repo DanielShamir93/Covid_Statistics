@@ -10,12 +10,10 @@ An application that allows you to examine Covid-19 influence on counties in the 
 - CSS
 - HTML
 
-## :package: Installation
+## :package: Dependencies
 
-- [chart.js](https://www.chartjs.org/)
-
-- Using json-server package as temporary database.
-- Using SASS as CSS extension language.
+- chart.js: "^3.6.2",
+- node-sass: "^7.0.0"
 
 ## :rocket: Contributing
 
