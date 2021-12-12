@@ -1,3 +1,5 @@
+![](assets/images/virus-logo.png)
+
 # :test_tube: Covid-19 Statistics
 
 An application that allows you to examine Covid-19 influence on counties in the world by statistics.
@@ -6,8 +8,8 @@ An application that allows you to examine Covid-19 influence on counties in the 
 
 - [chart.js](https://www.chartjs.org/)
 
-*Using json-server package as temporary database.
-*Using SASS as CSS extension language.
+- Using json-server package as temporary database.
+- Using SASS as CSS extension language.
 
 ## :rocket: Contributing
 

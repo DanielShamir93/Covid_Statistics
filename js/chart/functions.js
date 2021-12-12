@@ -1,4 +1,5 @@
 import { chart } from './chart.js';
+import { continentsNamesArray } from './variables.js';
 
 // Fetch and assign all countries names into result object and call second fetch
 const firstStepFetch = async (myRequest) => {
@@ -22,7 +23,7 @@ const firstStepFetch = async (myRequest) => {
             });
             setDropDowns(resultObject);
 
-        } else if (['Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Oceania'].includes(myRequest.name)) {
+        } else if (continentsNamesArray.includes(myRequest.name)) {
             // requested all countries of specific continent
             resultObject[myRequest.name] = [];
             response.data.forEach((country) => {
