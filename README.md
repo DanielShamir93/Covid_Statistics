@@ -4,6 +4,12 @@ An application that allows you to examine Covid-19 influence on counties in the 
 
 ![](assets/images/app-view.png)
 
+## :wrench: Languages
+
+- JavaScript
+- CSS
+- HTML
+
 ## :wrench: Installation
 
 - [chart.js](https://www.chartjs.org/)
