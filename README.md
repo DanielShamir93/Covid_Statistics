@@ -1,3 +1,4 @@
+❮img src="assets/images/virus-logo.png" width="50" ❯
 ![](assets/images/virus-logo.png)
 
 # :test_tube: Covid-19 Statistics
