@@ -1,6 +1,4 @@
-![](assets/images/virus-logo.png)
-
-# :test_tube: Covid-19 Statistics
+# <img src="assets/images/virus-logo.png" width="48"> Covid-19 Statistics
 
 An application that allows you to examine Covid-19 influence on counties in the world by statistics.
 
