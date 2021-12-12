@@ -14,6 +14,7 @@ An application that allows you to examine Covid-19 influence on counties in the 
 ## :rocket: Contributing
 
 Requested APIs from:
+
 - [about-corona.net](https://about-corona.net/)
 - [Hengkiardo-Git](https://github.com/hengkiardo/restcountries)
 
