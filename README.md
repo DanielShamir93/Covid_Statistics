@@ -4,13 +4,13 @@ An application that allows you to examine Covid-19 influence on counties in the 
 
 ![](assets/images/app-view.png)
 
-## :wrench: Languages
+## :technologist: Languages
 
 - JavaScript
 - CSS
 - HTML
 
-## :wrench: Installation
+## :package: Installation
 
 - [chart.js](https://www.chartjs.org/)
 
@@ -24,6 +24,6 @@ Requested APIs from:
 - [about-corona.net](https://about-corona.net/)
 - [Hengkiardo-Git](https://github.com/hengkiardo/restcountries)
 
-## :beers: recognition 
+## :beers: Recognition 
 
 A great thanks for Appleseeds bootcamp!
